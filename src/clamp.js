@@ -29,6 +29,7 @@
    */
   function clamp(element, options) {
     options = options || {};
+    console.log('clamp', options)
 
     var self = this,
       win = window,
@@ -38,7 +39,8 @@
         splitOnChars: options.splitOnChars || ['.', '-', '–', '—', ' '], //Split on sentences (periods), hypens, en-dashes, em-dashes, and words (spaces).
         animate: options.animate || false,
         truncationChar: options.truncationChar || '…',
-        truncationHTML: options.truncationHTML
+        truncationHTML: options.truncationHTML,
+        truncationPosition: options.truncationPosition,
       },
 
       sty = element.style,
@@ -254,6 +256,7 @@
     }
 
     function applyEllipsis(elem, str) {
+      console.log('applysell', opt)
       elem.nodeValue = str + opt.truncationChar;
     }
 
@@ -267,7 +270,7 @@
     }
 
     var clampedText;
-    if (supportsNativeClamp && opt.useNativeClamp) {
+    if (supportsNativeClamp && opt.useNativeClamp && opt.truncationPosition !== 'middle') {
       sty.overflow = 'hidden';
       sty.textOverflow = 'ellipsis';
       sty.webkitBoxOrient = 'vertical';
