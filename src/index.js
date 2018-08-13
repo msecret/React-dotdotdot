@@ -1,89 +1,88 @@
-var React = require('react');
+var react = require('react');
 var clamp = require('./clamp.js');
 var pick = require('object.pick');
-var PropTypes = require('prop-types');
-var ReactDOM = require('react-dom');
+var proptypes = require('prop-types');
+var reactdom = require('react-dom');
 
 /**
  * multuline text-overflow: ellipsis
  */
-function Dotdotdot() {
-  if(!(this instanceof Dotdotdot)) {
-    throw new TypeError("Cannot call a class as a function");
+function dotdotdot() {
+  if(!(this instanceof dotdotdot)) {
+    throw new typeerror("cannot call a class as a function");
   }
   this.update = this.update.bind(this);
-  this.getContainerRef = function (container) {
+  this.getcontainerref = function (container) {
     this.container = container;
   }.bind(this);
 }
 
-Dotdotdot.prototype = Object.create(React.Component.prototype);
-Dotdotdot.prototype.componentDidMount = function() {
-  window.addEventListener('resize', this.update, false);
-  // NOTE: It's possible, not all fonts are loaded on window.load
-  window.addEventListener('load', this.update, false);
-  this.dotdotdot(ReactDOM.findDOMNode(this.container));
+dotdotdot.prototype = object.create(react.component.prototype);
+dotdotdot.prototype.componentdidmount = function() {
+  window.addeventlistener('resize', this.update, false);
+  // note: it's possible, not all fonts are loaded on window.load
+  window.addeventlistener('load', this.update, false);
+  this.dotdotdot(reactdom.finddomnode(this.container));
 };
-Dotdotdot.prototype.componentWillUnmount = function() {
-  window.removeEventListener('resize', this.update, false);
-  window.removeEventListener('load', this.update, false);
+dotdotdot.prototype.componentwillunmount = function() {
+  window.removeeventlistener('resize', this.update, false);
+  window.removeeventlistener('load', this.update, false);
 };
-Dotdotdot.prototype.componentDidUpdate = function() {
-  this.dotdotdot(ReactDOM.findDOMNode(this.container));
+dotdotdot.prototype.componentdidupdate = function() {
+  this.dotdotdot(reactdom.finddomnode(this.container));
 };
 
-Dotdotdot.prototype.dotdotdot = function(container) {
-  if (!container) {
-    return;
-  }
-  
+dotdotdot.prototype.dotdotdot = function(container) {
   if (this.props.clamp) {
     if (container.length) {
-      throw new Error('Please provide exacly one child to dotdotdot');
+      throw new error('please provide exacly one child to dotdotdot');
     }
     clamp(container, pick(this.props, [
       'animate',
       'clamp',
-      'splitOnChars',
-      'truncationChar',
-      'truncationHTML',
-      'useNativeClamp'
+      'splitonchars',
+      'truncationchar',
+      'truncationhtml',
+      'truncationposition',
+      'usenativeclamp'
     ]));
   };
 };
-Dotdotdot.prototype.update = function() {
-    this.forceUpdate();
+dotdotdot.prototype.update = function() {
+    this.forceupdate();
 };
 
-Dotdotdot.prototype.render = function() {
-  return React.createElement(
-    this.props.tagName,
+dotdotdot.prototype.render = function() {
+  return react.createelement(
+    this.props.tagname,
     {
-      ref: this.getContainerRef,
-      className: this.props.className
+      ref: this.getcontainerref,
+      classname: this.props.classname
     },
     this.props.children
   );
 };
 
-// Statics:
-Dotdotdot.propTypes = {
-  children: PropTypes.node,
-  clamp: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool
-  ]).isRequired,
-  truncationChar: PropTypes.string,
-  useNativeClamp: PropTypes.bool,
-  className: PropTypes.string,
-  tagName: PropTypes.string
+// statics:
+dotdotdot.proptypes = {
+  children: proptypes.node,
+  clamp: proptypes.oneoftype([
+    proptypes.string,
+    proptypes.number,
+    proptypes.bool
+  ]).isrequired,
+  truncationchar: proptypes.string,
+  usenativeclamp: proptypes.bool,
+  classname: proptypes.string,
+  tagname: proptypes.string,
+  truncationposition: proptypes.oneof(['end', 'middle'])
 };
 
-Dotdotdot.defaultProps = {
-  truncationChar: '\u2026',
-  useNativeClamp: true,
-  tagName: 'div'
+dotdotdot.defaultprops = {
+  truncationchar: '\u2026',
+  usenativeclamp: true,
+  tagname: 'div',
+  truncationposition: 'end'
 };
 
-module.exports = Dotdotdot;
+module.exports = dotdotdot;
